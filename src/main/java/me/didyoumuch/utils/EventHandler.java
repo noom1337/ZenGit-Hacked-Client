@@ -19,6 +19,11 @@ public class EventHandler {
 		if(Minecraft.getInstance().world == null || Minecraft.getInstance().player == null)return;
 		Core.instance.getModuleManager().getModules().stream().forEach(module ->{
 			if(module.isEnabled()) {
+				AutoSprint autoSprint = (AutoSprint) Core.instance.getModuleManager().getModule(AutoSprint.class);
+				autoSprint.getSettings().get(0).setCurrentValue(99);
+				module.getSettings().forEach(s ->{
+					Core.instance.getLogger().log(s.getName() + " | " + s.getCurrentValue());
+				});
 				module.onUpdate();
 			}
 		});
@@ -27,6 +32,7 @@ public class EventHandler {
 	@SubscribeEvent
 	public void clientTickEvent(ClientTickEvent event) {
 		if(Minecraft.getInstance().world == null || Minecraft.getInstance().player == null)return;
+		
 		//TODO: some client tick code...
 	}
 	
@@ -40,7 +46,7 @@ public class EventHandler {
 		if(keyCode >= 0) {
 			Core.instance.getModuleManager().getModules().stream().forEach(module ->{
 				if(module.getKey() == keyCode && action == GLFW.GLFW_PRESS) {
-					module.toggle();
+					module.setEnabled(!module.isEnabled());
 				}
 			});
 		}

@@ -2,6 +2,7 @@ package me.didyoumuch.module;
 
 import java.util.ArrayList;
 
+import me.didyoumuch.Core;
 import me.didyoumuch.module.modules.AutoSprint;
 
 public class ModuleManager {
@@ -11,6 +12,7 @@ public class ModuleManager {
 		
 		modules.add(new AutoSprint());
 		
+		Core.instance.getLogger().log("Loaded " + modules.size() + " modules");
 	}
 	
 	public ArrayList<AbstractModule> getModules(){

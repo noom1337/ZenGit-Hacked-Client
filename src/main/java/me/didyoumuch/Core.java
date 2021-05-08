@@ -1,40 +1,48 @@
 package me.didyoumuch;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.InterModComms;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import me.didyoumuch.module.ModuleManager;
 import me.didyoumuch.utils.EventHandler;
-
-import java.util.stream.Collectors;
+import me.didyoumuch.utils.url.UrlUtils;
+import me.didyoumuch.utils.url.CustomLogger;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Mod;
 
 @Mod("zengit")
 public class Core
 {
+	private String version = "1.0";
+	private String clientName = "ZenGit";
 	
 	public static Core instance;
 	private ModuleManager moduleManager;
+	private CustomLogger logger;
 	
     public Core() {
-    	Core.instance = this;
-    	this.moduleManager = new ModuleManager();
-    	
-        MinecraftForge.EVENT_BUS.register(new EventHandler());
+    	logger = new CustomLogger(getClientName());
+    	if(UrlUtils.getVersion().contains(this.getVersion())) {
+    		getLogger().log("Client inited!");
+        	Core.instance = this;
+        	this.moduleManager = new ModuleManager();
+        	
+            MinecraftForge.EVENT_BUS.register(new EventHandler());
+    	}
+    	else {
+    		getLogger().log("Client is outdated! Download new version!");
+    	}
     }
+    
     public ModuleManager getModuleManager() {
 		return moduleManager;
+	}
+    
+    public CustomLogger getLogger() {
+		return logger;
+	}
+    
+    public String getClientName() {
+		return clientName;
+	}
+    public String getVersion() {
+		return version;
 	}
 }
