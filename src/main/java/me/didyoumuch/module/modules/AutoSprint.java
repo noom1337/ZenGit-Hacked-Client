@@ -6,7 +6,7 @@ import me.didyoumuch.module.AbstractModule;
 
 public class AutoSprint extends AbstractModule {
 	public AutoSprint() {
-		super("AutoSprint", GLFW.GLFW_KEY_RIGHT_SHIFT);
+		super("AutoSprint");
 	}
 	
 	@Override
