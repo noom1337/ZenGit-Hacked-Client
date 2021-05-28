@@ -8,6 +8,7 @@ import me.didyoumuch.clickgui.panel.element.AbstractElement;
 import me.didyoumuch.clickgui.panel.element.elements.ElementModuleButton;
 import me.didyoumuch.module.AbstractModule;
 import me.didyoumuch.module.Category;
+import me.didyoumuch.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 
@@ -108,9 +109,8 @@ public class Panel {
         if(this.y >= maxY) {
             this.y = maxY;
         }
-		
-		Screen.fill(this.x, this.y, this.x + this.width, this.y + this.height, this.isOpen() ? new Color(0,0,0).getRGB() : new Color(255,255,255,100).getRGB());
-		mc.fontRenderer.drawString(this.category.name(), this.x+this.width/2-mc.fontRenderer.getStringWidth(this.category.name())/2, this.y+mc.fontRenderer.FONT_HEIGHT/2, new Color(255,255,255).getRGB());
+        RenderUtils.renderOutlinedRect(this.x, this.y, this.x + this.width, this.y + this.height, this.isOpen() ? new Color(255,255,255).getRGB() : new Color(0,0,0).getRGB(), this.isOpen() ? new Color(0,0,0).getRGB() : new Color(255,255,255).getRGB());
+		mc.fontRenderer.drawString(this.category.name(), this.x+this.width/2-mc.fontRenderer.getStringWidth(this.category.name())/2, this.y+mc.fontRenderer.FONT_HEIGHT/2, this.isOpen() ? new Color(0,0,0).getRGB() : new Color(255,255,255).getRGB());
 		if(this.isOpen()) {
 			this.elements.stream().forEach(e ->{
 				e.onRender();

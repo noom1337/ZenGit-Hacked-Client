@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 import me.didyoumuch.clickgui.panel.Panel;
 import me.didyoumuch.clickgui.panel.element.AbstractElement;
 import me.didyoumuch.module.AbstractModule;
+import me.didyoumuch.utils.RenderUtils;
 import net.minecraft.client.gui.screen.Screen;
 
 public class ElementModuleButton extends AbstractElement{
