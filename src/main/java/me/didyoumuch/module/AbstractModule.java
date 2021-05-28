@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import me.didyoumuch.utils.settings.AbstractSetting;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.common.MinecraftForge;
 
 public class AbstractModule {
 	protected Minecraft mc = Minecraft.getInstance();
@@ -13,6 +12,7 @@ public class AbstractModule {
 	private boolean enabled;
 	private ArrayList<AbstractSetting> settings = new ArrayList<>();
 	private Category category;
+	private boolean keyFlag;
 
 
 	public AbstractModule(String name, Category category) {
@@ -21,6 +21,13 @@ public class AbstractModule {
 		this.enabled = false;
 		this.name = name;
 		this.category = category;
+	}
+	
+	public boolean isKeyFlag() {
+		return keyFlag;
+	}
+	public void setKeyFlag(boolean keyFlag) {
+		this.keyFlag = keyFlag;
 	}
 
 	public boolean isEnabled() {
@@ -41,11 +48,9 @@ public class AbstractModule {
 	}
 
 	public void onEnable(){
-		MinecraftForge.EVENT_BUS.register(this);
 	}
 
 	public void onDisable(){
-		MinecraftForge.EVENT_BUS.unregister(this);
 	}
 
 	public String getName() {
@@ -75,6 +80,12 @@ public class AbstractModule {
 
 	public void onUpdate() {
 
+	}
+	public void onRender2d() {
+		
+	}
+	public void onRender3d() {
+		
 	}
 	public void onPacket() {
 
