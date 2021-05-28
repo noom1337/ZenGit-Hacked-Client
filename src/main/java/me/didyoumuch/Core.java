@@ -1,5 +1,6 @@
 package me.didyoumuch;
 
+import me.didyoumuch.clickgui.ClickGuiScreen;
 import me.didyoumuch.module.ModuleManager;
 import me.didyoumuch.utils.EventHandler;
 import me.didyoumuch.utils.url.UrlUtils;
@@ -16,6 +17,7 @@ public class Core
 	public static Core instance;
 	private ModuleManager moduleManager;
 	private CustomLogger logger;
+	private ClickGuiScreen clickGui;
 	
     public Core() {
     	logger = new CustomLogger(getClientName());
@@ -23,6 +25,7 @@ public class Core
     		getLogger().log("Client inited!");
         	Core.instance = this;
         	this.moduleManager = new ModuleManager();
+        	this.clickGui = new ClickGuiScreen();
         	
             MinecraftForge.EVENT_BUS.register(new EventHandler());
     	}
@@ -44,5 +47,9 @@ public class Core
 	}
     public String getVersion() {
 		return version;
+	}
+    
+    public ClickGuiScreen getClickGui() {
+		return clickGui;
 	}
 }

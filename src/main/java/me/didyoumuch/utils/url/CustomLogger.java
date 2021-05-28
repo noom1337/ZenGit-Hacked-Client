@@ -11,7 +11,6 @@ public class CustomLogger {
 	
 	public void log(String message) {
 		System.out.println("["+this.getName()+"] " + message);
-		
 	}
 	
 	public String getName() {

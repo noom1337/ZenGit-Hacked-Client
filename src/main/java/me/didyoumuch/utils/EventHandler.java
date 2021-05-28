@@ -3,8 +3,10 @@ package me.didyoumuch.utils;
 import org.lwjgl.glfw.GLFW;
 
 import me.didyoumuch.Core;
+import me.didyoumuch.clickgui.ClickGuiScreen;
 import me.didyoumuch.module.AbstractModule;
 import me.didyoumuch.module.modules.AutoSprint;
+import me.didyoumuch.module.modules.ClickGui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraftforge.client.event.InputEvent.KeyInputEvent;
@@ -19,11 +21,6 @@ public class EventHandler {
 		if(Minecraft.getInstance().world == null || Minecraft.getInstance().player == null)return;
 		Core.instance.getModuleManager().getModules().stream().forEach(module ->{
 			if(module.isEnabled()) {
-				AutoSprint autoSprint = (AutoSprint) Core.instance.getModuleManager().getModule(AutoSprint.class);
-				autoSprint.getSettings().get(0).setCurrentValue(99);
-				module.getSettings().forEach(s ->{
-					Core.instance.getLogger().log(s.getName() + " | " + s.getCurrentValue());
-				});
 				module.onUpdate();
 			}
 		});
@@ -39,7 +36,6 @@ public class EventHandler {
 	@SubscribeEvent
 	public void keyInputEvent(KeyInputEvent event) {
 		if(Minecraft.getInstance().world == null || Minecraft.getInstance().player == null || (Minecraft.getInstance().currentScreen instanceof ChatScreen))return;
-		
         int keyCode = event.getKey();
         int action = event.getAction();
 		

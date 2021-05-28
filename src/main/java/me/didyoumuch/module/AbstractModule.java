@@ -12,17 +12,23 @@ public class AbstractModule {
 	private int key;
 	private boolean enabled;
 	private ArrayList<AbstractSetting> settings = new ArrayList<>();
+	private Category category;
 
 
-	public AbstractModule(String name) {
+	public AbstractModule(String name, Category category) {
 		super();
 		this.key = 0;
 		this.enabled = false;
 		this.name = name;
+		this.category = category;
 	}
 
 	public boolean isEnabled() {
 		return enabled;
+	}
+	
+	public Category getCategory() {
+		return category;
 	}
 
 	public void setEnabled(boolean enabled) {
