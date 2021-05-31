@@ -10,7 +10,8 @@ import me.didyoumuch.utils.settings.FloatSetting;
 public class AutoSprint extends AbstractModule {
 	public AutoSprint() {
 		super("AutoSprint", Category.PLAYER);
-		this.addSetting(new FloatSetting("TestFloatSetting", 10, 1, 100, false));
+		this.addSetting(new FloatSetting("Test Float", 10, 1, 100, false));
+		this.addSetting(new BoolSetting("Test Boolean", false));
 	}
 	
 	@Override

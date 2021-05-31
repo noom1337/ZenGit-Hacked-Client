@@ -14,7 +14,6 @@ public class ProfilerHook extends DebugProfiler{
 	
 	@Override
 	public void startSection(String name) {
-		
 		if(name.contains("tick")) {
 			Core.instance.onUpdate();
 			Core.instance.onKey();

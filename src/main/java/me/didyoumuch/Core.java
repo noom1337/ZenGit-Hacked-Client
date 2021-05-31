@@ -10,6 +10,7 @@ import me.didyoumuch.hooks.ProfilerHook;
 import me.didyoumuch.module.AbstractModule;
 import me.didyoumuch.module.ModuleManager;
 import me.didyoumuch.utils.url.UrlUtils;
+import me.didyoumuch.utils.reflection.ReflectionUtils;
 import me.didyoumuch.utils.url.CustomLogger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.InputMappings;
@@ -26,7 +27,6 @@ public class Core
 	private ModuleManager moduleManager;
 	private CustomLogger logger;
 	private ClickGuiScreen clickGui;
-	private Timer timer;
 	
     public Core() {
     	logger = new CustomLogger(getClientName());
@@ -35,23 +35,9 @@ public class Core
         	Core.instance = this;
         	this.moduleManager = new ModuleManager();
         	this.clickGui = new ClickGuiScreen();
-        	try {
-    			Field modifiersField = Field.class.getDeclaredField("modifiers");
-    			modifiersField.setAccessible(true);
-    			Field timerField = Minecraft.class.getDeclaredFields()[20];
-    			timerField.setAccessible(true);
-    			modifiersField.setInt(timerField, timerField.getModifiers() & ~Modifier.FINAL);
-    			this.timer = (Timer) timerField.get(Minecraft.getInstance());
-    			Field profilerField = Minecraft.class.getDeclaredFields()[66];
-    			profilerField.setAccessible(true);
-    			modifiersField.setInt(profilerField, profilerField.getModifiers() & ~Modifier.FINAL);
-    			ProfilerHook profiler = new ProfilerHook(() -> {
-    				return this.timer.elapsedTicks;
-    			});
-    			profilerField.set(Minecraft.getInstance(), profiler);
-        	}catch (Exception e) {
-        		getLogger().log("Cannot hook timer or profiler");
-			}
+        	
+        	ReflectionUtils.instance.hookTimer();
+        	ReflectionUtils.instance.hookProfiler();
     	}
     	else {
     		getLogger().log("Client is outdated! Download new version!");
@@ -95,6 +81,7 @@ public class Core
 
 		}
     }
+    
     public void onRender2d() {
 		if (Minecraft.getInstance().world == null || Minecraft.getInstance().player == null)
 			return;
@@ -104,6 +91,7 @@ public class Core
 				
 		}
     }
+    
     public void onUpdate() {
 		if (Minecraft.getInstance().world == null || Minecraft.getInstance().player == null)
 			return;
@@ -112,6 +100,7 @@ public class Core
 				m.onUpdate();
 		}
     }
+    
     public void onRender3d() {
 		if (Minecraft.getInstance().world == null || Minecraft.getInstance().player == null)
 			return;
@@ -120,18 +109,5 @@ public class Core
 				m.onRender3d();
 		}
     }
-    
-	private static boolean[] keyStates = new boolean[512];
 
-	public static boolean checkKey(int i) {
-		if (Minecraft.getInstance().currentScreen != null) {
-			return false;
-		}
-
-		if (GLFW.glfwGetKey(Minecraft.getInstance().mainWindow.getHandle(), i) == 1 != keyStates[i]) {
-			return keyStates[i] = !keyStates[i];
-		} else {
-			return false;
-		}
-	}
 }

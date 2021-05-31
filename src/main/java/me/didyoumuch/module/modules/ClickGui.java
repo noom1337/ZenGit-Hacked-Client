@@ -19,8 +19,8 @@ public class ClickGui extends AbstractModule {
 	@Override
 	public void onEnable() {
 		mc.gameRenderer.loadShader(new ResourceLocation("shaders/post/blur.json"));
-		mc.displayGuiScreen(Core.instance.getClickGui());
-//		mc.displayGuiScreen(new ClickGuiScreen());
+//		mc.displayGuiScreen(Core.instance.getClickGui());
+		mc.displayGuiScreen(new ClickGuiScreen());
 		this.setEnabled(false);
 		super.onEnable();
 	}
